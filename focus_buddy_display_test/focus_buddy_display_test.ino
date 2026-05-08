@@ -1,6 +1,7 @@
 #include "board_def.h"
 
 #define TASK_SELECT 1
+#define BLACK 0x0000
 // 1 = Task A
 // 2 = Task B
 // 3 = Task C
@@ -30,4 +31,4 @@ void setup() {
 
 void loop() {
   TASK_LOOP();
-}
+} 
