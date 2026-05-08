@@ -1,4 +1,5 @@
 #include "ui_focus_timer.h"
+#include <stdio.h>
 
 static lv_obj_t *s_root, *s_time_label, *s_task_label, *s_state_label, *s_arc;
 static uint32_t s_total_s, s_left_s, s_last_ms;

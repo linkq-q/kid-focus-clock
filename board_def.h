@@ -10,6 +10,17 @@
 #define LCD_WIDTH 466
 #define LCD_HEIGHT 466
 
+// RGB565 color definitions (Arduino_GFX uses 16-bit 565 colors)
+#define BLACK 0x0000
+#define WHITE 0xFFFF
+#define RED 0xF800
+#define GREEN 0x07E0
+#define BLUE 0x001F
+#define YELLOW 0xFFE0
+#define CYAN 0x07FF
+#define MAGENTA 0xF81F
+#define GRAY 0x7BEF
+
 // Waveshare ESP32-S3-Touch-AMOLED-1.75-B official pin map (adjust from vendor lib if needed)
 #define LCD_CS 10
 #define LCD_SCLK 12
