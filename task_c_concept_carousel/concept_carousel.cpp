@@ -1,0 +1,46 @@
+#include "concept_carousel.h"
+#include "../board_def.h"
+#include <lvgl.h>
+
+static lv_obj_t *page1, *page2, *dot1, *dot2;
+static ConceptPage cur = CONCEPT_AI_REPORT;
+static uint32_t last_switch;
+
+static void update_ind() {
+  lv_obj_set_style_bg_color(dot1, cur == CONCEPT_AI_REPORT ? lv_color_white() : lv_color_hex(0x6B7280), 0);
+  lv_obj_set_style_bg_color(dot2, cur == CONCEPT_BADGE_WALL ? lv_color_white() : lv_color_hex(0x6B7280), 0);
+}
+
+void carousel_goto(ConceptPage page) {
+  cur = page;
+  if (cur == CONCEPT_AI_REPORT) {
+    lv_obj_clear_flag(page1, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(page2, LV_OBJ_FLAG_HIDDEN);
+  } else {
+    lv_obj_add_flag(page1, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(page2, LV_OBJ_FLAG_HIDDEN);
+  }
+  update_ind();
+#if DEBUG_LOG
+  Serial.printf("[CAROUSEL] page -> %s at %lums\n", cur == CONCEPT_AI_REPORT ? "AI_REPORT" : "BADGE_WALL", millis());
+#endif
+}
+
+ConceptPage carousel_current() { return cur; }
+
+void carousel_setup() {
+  lv_init();
+  page1 = lv_obj_create(lv_scr_act()); lv_obj_set_size(page1, 466, 466); lv_obj_set_style_bg_color(page1, lv_color_hex(0x0F172A), 0);
+  lv_obj_t *t1 = lv_label_create(page1); lv_label_set_text(t1, "今日专注报告\n总时长 95 分钟\n次数 4\n最长 32 分钟"); lv_obj_align(t1, LV_ALIGN_TOP_LEFT, 20, 20);
+  page2 = lv_obj_create(lv_scr_act()); lv_obj_set_size(page2, 466, 466); lv_obj_set_style_bg_color(page2, lv_color_hex(0x0F172A), 0);
+  lv_obj_t *t2 = lv_label_create(page2); lv_label_set_text(t2, "我的徽章\n已获得 3/6\n⭐ 阅读达人 ⭐ 数学专注 ⭐ 钢琴练习"); lv_obj_align(t2, LV_ALIGN_TOP_LEFT, 20, 20);
+  dot1 = lv_obj_create(lv_scr_act()); dot2 = lv_obj_create(lv_scr_act()); lv_obj_set_size(dot1, 8, 8); lv_obj_set_size(dot2, 8, 8);
+  lv_obj_set_style_radius(dot1, LV_RADIUS_CIRCLE, 0); lv_obj_set_style_radius(dot2, LV_RADIUS_CIRCLE, 0);
+  lv_obj_align(dot1, LV_ALIGN_BOTTOM_MID, -10, -16); lv_obj_align(dot2, LV_ALIGN_BOTTOM_MID, 10, -16);
+  last_switch = millis(); carousel_goto(CONCEPT_AI_REPORT);
+}
+
+void carousel_loop() {
+  if (millis() - last_switch > 5000) { carousel_goto((ConceptPage)((cur + 1) % CONCEPT_COUNT)); last_switch = millis(); }
+  lv_timer_handler();
+}
