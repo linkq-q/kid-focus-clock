@@ -1,5 +1,6 @@
 #include "board_def.h"
 
+#define DISPLAY_TEST_ONLY 1
 #define TASK_SELECT 1
 // BLACK is already defined in board_def.h; removed duplicate define to avoid
 // "macro redefined" warning.
@@ -27,9 +28,15 @@ void lvgl_ui_loop();
 void setup() {
   Serial.begin(115200);
   gfx_init();
+#if !DISPLAY_TEST_ONLY
   TASK_SETUP();
+#endif
 }
 
 void loop() {
+#if DISPLAY_TEST_ONLY
+  gfx_display_test_loop();
+#else
   TASK_LOOP();
-} 
+#endif
+}

@@ -12,6 +12,7 @@
 
 #include <Arduino.h>
 #include <Arduino_GFX_Library.h>
+#include <Wire.h>
 
 #ifndef DEBUG_LOG
 #define DEBUG_LOG 1
@@ -39,9 +40,21 @@
 #define LCD_SDIO2 14
 #define LCD_SDIO3 9
 
+// Match Waveshare 01_Hello_world flow: initialize board I2C before display begin.
+// If your local official pin_config.h uses different values, replace these macros with that file's exact values.
+#define IIC_SDA 4
+#define IIC_SCL 5
+
+// Official demo passes LCD_RESET into Arduino_CO5300 constructor.
+// Keep configurable here to avoid hard-coding a wrong board revision pin.
+#ifndef LCD_RESET
+#define LCD_RESET -1
+#endif
+
 #define BOOT_BTN_PIN 0
 
 extern Arduino_GFX *gfx;
 
 void gfx_init();
+void gfx_display_test_loop();
 void board_log(const char *tag, const char *msg);
