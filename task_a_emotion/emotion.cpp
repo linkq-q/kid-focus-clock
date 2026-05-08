@@ -1,5 +1,6 @@
 #include "emotion.h"
 #include "../board_def.h"
+#include "frame_happy_0.h"
 
 static EmotionState s_state = EMOTION_HAPPY;
 static uint8_t s_frame = 0;
@@ -12,15 +13,15 @@ static void draw_face() {
   gfx->fillRect(ox, oy, FRAME_W, FRAME_H, BLACK);
 
   if (s_state == EMOTION_HAPPY) {
-    gfx->fillCircle(LCD_WIDTH / 2, LCD_HEIGHT / 2, 90, 0xFFE0);
+    gfx->fillCircle(LCD_WIDTH / 2, LCD_HEIGHT / 2, 90, YELLOW);
     gfx->fillCircle(LCD_WIDTH / 2 - 35, LCD_HEIGHT / 2 - 25, 10, BLACK);
     gfx->fillCircle(LCD_WIDTH / 2 + 35, LCD_HEIGHT / 2 - 25, s_frame ? 3 : 10, BLACK);
     gfx->drawFastHLine(LCD_WIDTH / 2 - 35, LCD_HEIGHT / 2 + 35, 70, BLACK);
   } else {
-    gfx->fillCircle(LCD_WIDTH / 2, LCD_HEIGHT / 2, 90, 0x051F);
+    gfx->fillCircle(LCD_WIDTH / 2, LCD_HEIGHT / 2, 90, BLUE);
     gfx->drawFastHLine(LCD_WIDTH / 2 - 48, LCD_HEIGHT / 2 - 25, 28, WHITE);
     gfx->drawFastHLine(LCD_WIDTH / 2 + 20, LCD_HEIGHT / 2 - 25, 28, WHITE);
-    gfx->drawFastHLine(LCD_WIDTH / 2 - 25, LCD_HEIGHT / 2 + 40, 50, s_frame ? WHITE : 0x7BEF);
+    gfx->drawFastHLine(LCD_WIDTH / 2 - 25, LCD_HEIGHT / 2 + 40, 50, s_frame ? WHITE : GRAY);
   }
 }
 
