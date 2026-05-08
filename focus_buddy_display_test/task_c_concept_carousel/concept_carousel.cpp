@@ -6,6 +6,18 @@ static lv_obj_t *page1, *page2, *dot1, *dot2;
 static ConceptPage cur = CONCEPT_AI_REPORT;
 static uint32_t last_switch;
 
+/* LVGL display driver for Task C (carousel has no lvgl_ui_app.cpp helper) */
+static lv_disp_draw_buf_t s_draw_buf;
+static lv_disp_drv_t      s_disp_drv;
+static lv_color_t        *s_buf;
+
+static void carousel_flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_p) {
+  int32_t w = area->x2 - area->x1 + 1;
+  int32_t h = area->y2 - area->y1 + 1;
+  gfx->draw16bitRGBBitmap(area->x1, area->y1, (uint16_t *)color_p, w, h);
+  lv_disp_flush_ready(drv);
+}
+
 static void update_ind() {
   lv_obj_set_style_bg_color(dot1, cur == CONCEPT_AI_REPORT ? lv_color_white() : lv_color_hex(0x6B7280), 0);
   lv_obj_set_style_bg_color(dot2, cur == CONCEPT_BADGE_WALL ? lv_color_white() : lv_color_hex(0x6B7280), 0);
@@ -30,6 +42,17 @@ ConceptPage carousel_current() { return cur; }
 
 void carousel_setup() {
   lv_init();
+  /* Register display driver so lv_scr_act() has a valid screen object */
+  const uint32_t draw_size = LCD_WIDTH * LCD_HEIGHT / 10;
+  s_buf = (lv_color_t *)ps_malloc(draw_size * sizeof(lv_color_t));
+  lv_disp_draw_buf_init(&s_draw_buf, s_buf, NULL, draw_size);
+  lv_disp_drv_init(&s_disp_drv);
+  s_disp_drv.hor_res  = LCD_WIDTH;
+  s_disp_drv.ver_res  = LCD_HEIGHT;
+  s_disp_drv.flush_cb = carousel_flush_cb;
+  s_disp_drv.draw_buf = &s_draw_buf;
+  lv_disp_drv_register(&s_disp_drv);
+
   page1 = lv_obj_create(lv_scr_act()); lv_obj_set_size(page1, 466, 466); lv_obj_set_style_bg_color(page1, lv_color_hex(0x0F172A), 0);
   lv_obj_t *t1 = lv_label_create(page1); lv_label_set_text(t1, "今日专注报告\n总时长 95 分钟\n次数 4\n最长 32 分钟"); lv_obj_align(t1, LV_ALIGN_TOP_LEFT, 20, 20);
   page2 = lv_obj_create(lv_scr_act()); lv_obj_set_size(page2, 466, 466); lv_obj_set_style_bg_color(page2, lv_color_hex(0x0F172A), 0);

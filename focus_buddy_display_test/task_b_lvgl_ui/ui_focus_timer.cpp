@@ -1,3 +1,4 @@
+#include "../board_def.h"  /* provides Arduino.h → millis() */
 #include "ui_focus_timer.h"
 #include <stdio.h>
 

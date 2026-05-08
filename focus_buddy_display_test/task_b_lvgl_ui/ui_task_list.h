@@ -1,4 +1,11 @@
 #pragma once
+
+/* Ensure lv_conf.h is found via the sketch include path in every TU that
+ * only includes this header (e.g. ui_task_list.cpp has no board_def.h). */
+#ifndef LV_CONF_INCLUDE_SIMPLE
+#define LV_CONF_INCLUDE_SIMPLE
+#endif
+
 #include <lvgl.h>
 #include <stdint.h>
 
