@@ -1,7 +1,8 @@
 #include "board_def.h"
 
 #define TASK_SELECT 1
-#define BLACK 0x0000
+// BLACK is already defined in board_def.h; removed duplicate define to avoid
+// "macro redefined" warning.
 // 1 = Task A
 // 2 = Task B
 // 3 = Task C

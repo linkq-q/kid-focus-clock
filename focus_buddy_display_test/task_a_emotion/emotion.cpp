@@ -39,7 +39,7 @@ void emotion_loop() {
     s_frame ^= 1;
     draw_face();
 #if DEBUG_LOG
-    Serial.printf("[FRAME] %s frame %u -> %u at %lums\n", s_state == EMOTION_HAPPY ? "happy" : "focus", prev, s_frame, now);
+    Serial.printf("[FRAME] %s frame %u -> %u at %lums\n", s_state == EMOTION_HAPPY ? "happy" : "focus", prev, s_frame, (unsigned long)now);
 #endif
   }
 
@@ -50,7 +50,7 @@ void emotion_loop() {
     s_frame = 0;
     draw_face();
 #if DEBUG_LOG
-    Serial.printf("[EMOTION] State: %s -> %s at %lums\n", prev_state == EMOTION_HAPPY ? "HAPPY" : "FOCUS", s_state == EMOTION_HAPPY ? "HAPPY" : "FOCUS", now);
+    Serial.printf("[EMOTION] State: %s -> %s at %lums\n", prev_state == EMOTION_HAPPY ? "HAPPY" : "FOCUS", s_state == EMOTION_HAPPY ? "HAPPY" : "FOCUS", (unsigned long)now);
 #endif
   }
 }
