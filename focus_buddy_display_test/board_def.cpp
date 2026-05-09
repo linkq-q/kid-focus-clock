@@ -38,9 +38,25 @@ bool gfx_init() {
 }
 
 void gfx_display_test_loop() {
-  Serial.println("[DISPLAY_TEST] FORCE WHITE");
-  gfx->fillScreen(RGB565_WHITE);
   while (true) {
+    Serial.println("[DISPLAY_TEST] RED");
+    gfx->fillScreen(RGB565_RED);
+    delay(1000);
+
+    Serial.println("[DISPLAY_TEST] GREEN");
+    gfx->fillScreen(RGB565_GREEN);
+    delay(1000);
+
+    Serial.println("[DISPLAY_TEST] BLUE");
+    gfx->fillScreen(RGB565_BLUE);
+    delay(1000);
+
+    Serial.println("[DISPLAY_TEST] WHITE");
+    gfx->fillScreen(RGB565_WHITE);
+    delay(1000);
+
+    Serial.println("[DISPLAY_TEST] BLACK");
+    gfx->fillScreen(RGB565_BLACK);
     delay(1000);
   }
 }
