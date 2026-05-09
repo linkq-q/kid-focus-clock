@@ -27,7 +27,10 @@ void lvgl_ui_loop();
 
 void setup() {
   Serial.begin(115200);
-  gfx_init();
+  if (!gfx_init()) {
+    Serial.println("[DISPLAY_INIT] abort");
+    return;
+  }
 #if !DISPLAY_TEST_ONLY
   TASK_SETUP();
 #endif
