@@ -1,7 +1,7 @@
 #include "board_def.h"
 
-#define DISPLAY_TEST_ONLY 1
-#define TASK_SELECT 1
+#define DISPLAY_TEST_ONLY 0
+#define TASK_SELECT 3
 // BLACK is already defined in board_def.h; removed duplicate define to avoid
 // "macro redefined" warning.
 // 1 = Task A
