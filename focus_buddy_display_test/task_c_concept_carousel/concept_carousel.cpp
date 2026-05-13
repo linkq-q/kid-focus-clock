@@ -64,6 +64,6 @@ void carousel_setup() {
 }
 
 void carousel_loop() {
-  if (millis() - last_switch > 5000) { carousel_goto((ConceptPage)((cur + 1) % CONCEPT_COUNT)); last_switch = millis(); }
+  if (millis() - last_switch > 10000) { carousel_goto((ConceptPage)((cur + 1) % CONCEPT_COUNT)); last_switch = millis(); }
   lv_timer_handler();
 }
